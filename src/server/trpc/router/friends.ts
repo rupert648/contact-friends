@@ -30,6 +30,13 @@ export const friendsRouter = router({
           .email({ message: "Not a valid Phone Number" })
           .nullish()
           .optional(),
+        lastContacted: z
+          .date()
+          .max(new Date(), {
+            message: "Can't have last contacted someone after today!",
+          })
+          .nullish()
+          .optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -40,6 +47,7 @@ export const friendsRouter = router({
           email: input.email,
           phoneNumber: input.phoneNumber,
           userId: ctx.session.user.id,
+          lastContacted: input.lastContacted,
         },
       });
       return friend;

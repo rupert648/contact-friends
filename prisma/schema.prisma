@@ -59,13 +59,13 @@ model User {
 }
 
 model Friend {
-  id            String    @id @default(cuid())
-  name          String    @unique
+  id            String   @id @default(cuid())
+  name          String   @unique
   phoneNumber   String?
   email         String?
-  lastContacted DateTime?
+  lastContacted DateTime @default(now())
   userId        String
-  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {

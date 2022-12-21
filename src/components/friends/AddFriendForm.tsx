@@ -4,11 +4,13 @@ import { Formik } from "formik";
 
 import { trpc } from "../../utils/trpc";
 import Input from "../shared/Input";
+import DateInput from "../shared/DateInput";
 
 interface values {
   name?: string;
   phoneNumber?: string;
   email?: string;
+  lastContacted?: number;
 }
 
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
@@ -19,9 +21,21 @@ const AddFriendForm = ({
 }: {
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const mutation = trpc.friends.addFriend.useMutation();
+  const utils = trpc.useContext();
+  const mutation = trpc.friends.addFriend.useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onSuccess(_input) {
+      utils.friends.getAll.invalidate();
+      setShowModal(false);
+    },
+  });
 
-  const validateValues = ({ name, phoneNumber, email }: values) => {
+  const validateValues = ({
+    name,
+    phoneNumber,
+    email,
+    lastContacted,
+  }: values) => {
     const errors: values = {};
 
     if (!name) {
@@ -42,16 +56,28 @@ const AddFriendForm = ({
   return (
     <div>
       <Formik
-        initialValues={{ name: "", phoneNumber: "", email: "" }}
+        initialValues={{
+          name: "",
+          phoneNumber: "",
+          email: "",
+          lastContacted: Date.now(),
+        }}
         validate={validateValues}
-        onSubmit={async ({ name, email, phoneNumber }, { setSubmitting }) => {
+        onSubmit={async (
+          { name, email, phoneNumber, lastContacted },
+          { setSubmitting }
+        ) => {
           // TODO:
           setSubmitting(true);
+
+          console.log(lastContacted);
+          console.log(new Date(lastContacted));
 
           await mutation.mutate({
             name: name,
             email: email === "" ? undefined : email,
             phoneNumber: phoneNumber === "" ? undefined : phoneNumber,
+            lastContacted: lastContacted ? new Date(lastContacted) : undefined,
           });
 
           setSubmitting(false);
@@ -101,6 +127,16 @@ const AddFriendForm = ({
               label={"Phone Number"}
               errors={errors.phoneNumber}
               touched={touched.phoneNumber}
+            />
+
+            <DateInput
+              name="lastContacted"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.lastContacted}
+              label={"Phone Number"}
+              errors={errors.lastContacted}
+              touched={touched.lastContacted}
             />
 
             {/*footer*/}
