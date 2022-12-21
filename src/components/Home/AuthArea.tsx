@@ -9,7 +9,7 @@ const AuthShowcase: React.FC = () => {
     <div className="flex flex-col items-center justify-center gap-4">
       {sessionData && (
         <Link
-          href={"/test"}
+          href={"/friends"}
           className="rounded-full bg-orange-500 py-2 px-4 font-bold text-white hover:bg-orange-700"
         >
           Proceed to home page

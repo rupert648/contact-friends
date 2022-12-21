@@ -35,6 +35,7 @@ const DateInput = ({
         onChange={onChange}
         onBlur={onBlur}
         value={value}
+        max={new Date().toISOString().split("T")[0]}
       ></input>
       {errors && touched && (
         <p className="text-xs italic text-red-500">{errors}</p>

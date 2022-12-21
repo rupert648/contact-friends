@@ -48,7 +48,7 @@ const NavBar: React.FC = () => {
           </svg>
         </button>
       </div>
-      <ul className="absolute top-1/2 left-1/2 hidden -translate-y-1/2 -translate-x-1/2 transform lg:mx-auto lg:flex lg:flex lg:w-auto lg:items-center lg:space-x-6">
+      <ul className="absolute top-1/2 left-1/2 hidden -translate-y-1/2 -translate-x-1/2 transform lg:mx-auto lg:flex lg:w-auto lg:items-center lg:space-x-6">
         {menuOps}
       </ul>
       <SignInArea />
