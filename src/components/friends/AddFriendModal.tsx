@@ -1,4 +1,6 @@
-import React, { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import React from "react";
+import AddFriendForm from "./AddFriendForm";
 
 interface AddFriendModalProps {
   setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -25,24 +27,7 @@ const AddFriendModal = ({ setShowModal }: AddFriendModalProps) => {
             </div>
             {/*body*/}
             <div className="relative flex-auto p-6">
-              <AddFriendForm />
-            </div>
-            {/*footer*/}
-            <div className="flex items-center justify-end rounded-b border-t border-solid border-slate-200 p-6">
-              <button
-                className="background-transparent mr-1 mb-1 px-6 py-2 text-sm font-bold uppercase text-red-500 outline-none transition-all duration-150 ease-linear focus:outline-none"
-                type="button"
-                onClick={() => setShowModal(false)}
-              >
-                Close
-              </button>
-              <button
-                className="mr-1 mb-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
-                type="button"
-                onClick={() => setShowModal(false)}
-              >
-                Save Changes
-              </button>
+              <AddFriendForm setShowModal={setShowModal} />
             </div>
           </div>
         </div>
