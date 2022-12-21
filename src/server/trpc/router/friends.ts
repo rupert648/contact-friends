@@ -35,12 +35,10 @@ export const friendsRouter = router({
           .max(new Date(), {
             message: "Can't have last contacted someone after today!",
           })
-          .nullish()
           .optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
-      console.log("HERE");
       const friend = await ctx.prisma.friend.create({
         data: {
           name: input.name,
@@ -51,5 +49,20 @@ export const friendsRouter = router({
         },
       });
       return friend;
+    }),
+
+  deleteFriend: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "Friend ID is required" }).cuid(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const result = await ctx.prisma.friend.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return result;
     }),
 });

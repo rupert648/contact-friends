@@ -2,7 +2,7 @@ import { useState } from "react";
 import type NextAuthPage from "../../types/NextAuthPage";
 import { trpc } from "../../utils/trpc";
 
-import AddFriendModal from "../../components/friends/AddFriendModal";
+import AddFriendModal from "../../components/friends/AddFriendModel/AddFriendModal";
 import FriendArea from "../../components/friends/FriendArea";
 
 const FriendsPage: NextAuthPage = () => {

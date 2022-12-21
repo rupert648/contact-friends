@@ -2,9 +2,9 @@ import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 import { Formik } from "formik";
 
-import { trpc } from "../../utils/trpc";
-import Input from "../shared/Input";
-import DateInput from "../shared/DateInput";
+import { trpc } from "../../../utils/trpc";
+import Input from "../../shared/Input";
+import DateInput from "../../shared/DateInput";
 
 interface values {
   name?: string;
@@ -30,12 +30,7 @@ const AddFriendForm = ({
     },
   });
 
-  const validateValues = ({
-    name,
-    phoneNumber,
-    email,
-    lastContacted,
-  }: values) => {
+  const validateValues = ({ name, phoneNumber, email }: values) => {
     const errors: values = {};
 
     if (!name) {
