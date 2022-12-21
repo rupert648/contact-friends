@@ -22,14 +22,14 @@ const NavBar: React.FC = () => {
     }
 
     return (
-      <>
-        <li key={index}>
+      <React.Fragment key={index}>
+        <li>
           <Link className={className} href={`/${page.toLowerCase()}`}>
             {page}
           </Link>
         </li>
         {index !== pages.length - 1 && <Separator />}
-      </>
+      </React.Fragment>
     );
   });
 

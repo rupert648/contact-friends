@@ -1,6 +1,8 @@
-import React, { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { Formik } from "formik";
 
+import { trpc } from "../../utils/trpc";
 import Input from "../shared/Input";
 
 interface values {
@@ -17,6 +19,8 @@ const AddFriendForm = ({
 }: {
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const mutation = trpc.friends.addFriend.useMutation();
+
   const validateValues = ({ name, phoneNumber, email }: values) => {
     const errors: values = {};
 
@@ -40,10 +44,16 @@ const AddFriendForm = ({
       <Formik
         initialValues={{ name: "", phoneNumber: "", email: "" }}
         validate={validateValues}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={async ({ name, email, phoneNumber }, { setSubmitting }) => {
           // TODO:
-          console.log("HELLOOO");
-          alert(JSON.stringify(values));
+          setSubmitting(true);
+
+          await mutation.mutate({
+            name: name,
+            email: email === "" ? undefined : email,
+            phoneNumber: phoneNumber === "" ? undefined : phoneNumber,
+          });
+
           setSubmitting(false);
         }}
       >
@@ -105,6 +115,7 @@ const AddFriendForm = ({
               <button
                 className="mr-1 mb-1 rounded bg-emerald-500 px-6 py-3 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-lg focus:outline-none active:bg-emerald-600"
                 type="submit"
+                disabled={isSubmitting}
               >
                 Submit
               </button>

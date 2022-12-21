@@ -17,7 +17,7 @@ const FriendsPage: NextAuthPage = () => {
   }
 
   const friends = data?.Friend.map((friend) => {
-    <p>{friend.name}</p>;
+    return <p key={friend.id}>{friend.name}</p>;
   });
 
   return (
@@ -29,7 +29,7 @@ const FriendsPage: NextAuthPage = () => {
         big ass button
       </button>
       {showModal && <AddFriendModal setShowModal={setShowModal} />}
-      {friends?.length !== 0 ? friends : <p>No Friends :(</p>}
+      <div>{friends?.length !== 0 ? friends : <p>No Friends :(</p>}</div>
     </div>
   );
 };
