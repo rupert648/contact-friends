@@ -51,4 +51,22 @@ const TrashIcon: React.FC = () => (
   </svg>
 );
 
-export { TrashIcon, PhoneIcon, MailIcon };
+const ChevronDownIcon: React.FC = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="-mr-1 ml-2 h-5 w-5"
+    aria-hidden="true"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+    />
+  </svg>
+);
+
+export { TrashIcon, PhoneIcon, MailIcon, ChevronDownIcon };

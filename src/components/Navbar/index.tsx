@@ -35,7 +35,6 @@ const NavBar: React.FC = () => {
 
   return (
     <nav className="relative flex items-center justify-between bg-white px-4 py-4">
-      <Image width="100" src={logo} alt="Logo Image"></Image>
       <div className="lg:hidden">
         <button className="navbar-burger flex items-center p-3 text-blue-600">
           <svg

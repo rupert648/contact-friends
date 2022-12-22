@@ -1,11 +1,16 @@
-import { Friend } from "@prisma/client";
+import type { Friend } from "@prisma/client";
 import React, { useState } from "react";
 
 import { trpc } from "../../../utils/trpc";
 import DeleteFriendModel from "./DeleteFriendModel";
 import FriendCard from "./FriendCard";
+import type { sortMethods } from "../../../pages/friends";
 
-const FriendArea = () => {
+interface FriendAreaProps {
+  sortMethod: sortMethods;
+}
+
+const FriendArea = ({ sortMethod }: FriendAreaProps) => {
   const [showDeleteFriendModal, setShowDeleteFriendModal] =
     useState<boolean>(false);
   const [toDelete, setToDelete] = useState<Friend | null>(null);
@@ -19,7 +24,42 @@ const FriendArea = () => {
     return <p>Error</p>;
   }
 
-  const friends = data?.Friend.map((friend) => {
+  const sortByName = (frienda: Friend, friendb: Friend) => {
+    if (frienda.name < friendb.name) {
+      return -1;
+    }
+    if (frienda.name > friendb.name) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const sortByLastContacted = (frienda: Friend, friendb: Friend) => {
+    const atime = frienda.lastContacted.getTime();
+    const btime = friendb.lastContacted.getTime();
+    if (atime < btime) {
+      return -1;
+    }
+    if (atime > btime) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const friendsSorted = sortMethod
+    ? data?.Friend.sort((frienda, friendb) => {
+        switch (sortMethod) {
+          case "name":
+            return sortByName(frienda, friendb);
+          case "lastContacted":
+            return sortByLastContacted(frienda, friendb);
+          default:
+            return 0;
+        }
+      })
+    : data?.Friend;
+
+  const friends = friendsSorted?.map((friend) => {
     return (
       <FriendCard
         key={friend.id}
