@@ -2,7 +2,7 @@ import { type Friend } from "@prisma/client";
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 
-import { TrashIcon, MailIcon, PhoneIcon } from "../../icons";
+import { TrashIcon, MailIcon, PhoneIcon, Clock, Person } from "../../icons";
 
 interface FriendCardProps {
   friend: Friend;
@@ -15,38 +15,30 @@ const FriendCard = ({
   setShowDeleteModal,
   setToDelete,
 }: FriendCardProps) => {
-  const { name, phoneNumber, email, lastContacted } = friend;
+  const { name, lastContacted } = friend;
 
   return (
-    <div className={`w-full p-4 shadow-md lg:max-w-lg `}>
-      <div className="space-y-2">
-        <div className="relative flex items-center justify-between bg-white">
-          <h3 className="text-2xl font-semibold">{name}</h3>
+    <div className={`w-full border-y border-gray-400 p-2 `}>
+      <div className="relative flex items-center justify-between bg-white">
+        <div className="flex items-center space-x-2">
+          <Person className="h-4 w-4" />
+          <p className="text-md font-semibold">{name}</p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Clock />
+          <p className="text-xs font-light">{lastContacted?.toDateString()}</p>
+          <button>
+            <MailIcon className="h-6 w-6 text-green-500" />
+          </button>
           <button
             onClick={() => {
               setToDelete(friend);
               setShowDeleteModal(true);
             }}
           >
-            <TrashIcon />
+            <TrashIcon className="h-6 w-6 text-red-500" />
           </button>
-        </div>
-        <ul className="text-xs text-gray-600">
-          <li className="mb-3">
-            <MailIcon />
-            <span className="font-bold">Email: </span>
-            {email ? email : "no email"}
-          </li>
-          <li className="mb-3">
-            <PhoneIcon />
-            <span className="font-bold">Phone Number: </span>
-            {phoneNumber ? phoneNumber : "no phone number"}
-          </li>
-          <li className="mb-3">
-            <span className="font-bold">Last Contacted: </span>
-            {lastContacted?.toDateString()}
-          </li>
-        </ul>
+        </div>{" "}
       </div>
     </div>
   );

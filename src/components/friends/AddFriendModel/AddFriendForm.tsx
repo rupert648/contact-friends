@@ -1,26 +1,31 @@
-import type { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import React from "react";
 import { Formik } from "formik";
 
 import { trpc } from "../../../utils/trpc";
 import Input from "../../shared/Input";
 import DateInput from "../../shared/DateInput";
+import MultiInput from "../../shared/MultiInput";
 
 interface values {
   name?: string;
   phoneNumber?: string;
   email?: string;
   lastContacted?: number;
+  tags?: string[];
 }
 
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+const options = ["cock", "cock2"];
 
 const AddFriendForm = ({
   setShowModal,
 }: {
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const [selected, setSelected] = useState<string[]>([]);
   const utils = trpc.useContext();
   const mutation = trpc.friends.addFriend.useMutation({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -56,10 +61,11 @@ const AddFriendForm = ({
           phoneNumber: "",
           email: "",
           lastContacted: Date.now(),
+          tags: [],
         }}
         validate={validateValues}
         onSubmit={async (
-          { name, email, phoneNumber, lastContacted },
+          { name, email, phoneNumber, lastContacted, tags },
           { setSubmitting }
         ) => {
           // TODO:
@@ -132,6 +138,12 @@ const AddFriendForm = ({
               label={"Last Contacted"}
               errors={errors.lastContacted}
               touched={touched.lastContacted}
+            />
+            <MultiInput
+              selected={selected}
+              setSelected={setSelected}
+              options={options}
+              label={"Tags"}
             />
 
             {/*footer*/}

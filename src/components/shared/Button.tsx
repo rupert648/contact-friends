@@ -8,7 +8,7 @@ interface ButtonProps {
 const Button = ({ children, onClick }: ButtonProps) => {
   return (
     <button
-      className="mx-4 w-32 rounded-md bg-orange-500 py-1 px-1 text-sm  text-white hover:bg-orange-700"
+      className="mx-4 rounded-md bg-orange-500 py-1 px-1 text-sm text-white hover:bg-orange-700"
       onClick={onClick}
     >
       {children}
