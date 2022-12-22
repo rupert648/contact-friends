@@ -9,8 +9,8 @@ interface AddFriendModalProps {
 const AddFriendModal = ({ setShowModal }: AddFriendModalProps) => {
   return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
-        <div className="relative my-6 mx-auto w-auto max-w-3xl">
+      <div className="fixed inset-0 z-50 flex w-auto items-center justify-center overflow-y-auto overflow-x-hidden outline-none focus:outline-none">
+        <div className="relative my-6 mx-auto w-10/12 max-w-3xl md:w-1/2">
           {/*content*/}
           <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none">
             {/*header*/}

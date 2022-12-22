@@ -44,7 +44,7 @@ const Dropdown = <T,>({
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="mx-4 inline-flex w-32 justify-center rounded-md bg-orange-500 py-1 px-1 text-sm font-bold text-white hover:bg-orange-700">
+        <Menu.Button className="mx-4 inline-flex w-32 justify-center rounded-md bg-orange-500 py-1 px-1 text-sm  text-white hover:bg-orange-700">
           {active ? active : placeholder}
           <ChevronDownIcon />
         </Menu.Button>
