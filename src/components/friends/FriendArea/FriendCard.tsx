@@ -16,24 +16,9 @@ const FriendCard = ({
   setToDelete,
 }: FriendCardProps) => {
   const { name, phoneNumber, email, lastContacted } = friend;
-  const getColor = () => {
-    const msSinceLastContacted = Date.now() - lastContacted.getTime();
-    const daysSinceLastContacted = Math.floor(
-      msSinceLastContacted / (1000 * 64 * 60 * 24)
-    );
-    console.log(daysSinceLastContacted);
-    if (daysSinceLastContacted === 0) return undefined;
-    const colourVal = 1 - 1 / daysSinceLastContacted;
-
-    console.log(colourVal);
-    return colourVal * 0.5;
-  };
 
   return (
-    <div
-      className={`w-full p-4 shadow-md lg:max-w-lg `}
-      style={{ border: `5px solid rgba(255, 0, 0, ${getColor()})` }}
-    >
+    <div className={`w-full p-4 shadow-md lg:max-w-lg `}>
       <div className="space-y-2">
         <div className="relative flex items-center justify-between bg-white">
           <h3 className="text-2xl font-semibold">{name}</h3>
