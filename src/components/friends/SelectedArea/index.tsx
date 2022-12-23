@@ -1,6 +1,5 @@
 import React from "react";
 
-import { trpc } from "../../../utils/trpc";
 import SelectedFriendArea from "./SelectedFriendArea";
 
 interface SelectedAreaProps {
