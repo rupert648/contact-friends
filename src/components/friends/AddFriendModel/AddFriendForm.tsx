@@ -12,20 +12,19 @@ interface values {
   phoneNumber?: string;
   email?: string;
   lastContacted?: number;
-  tags?: string[];
 }
 
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
-const options = ["cock", "cock2"];
+const options = ["friend", "family", "work", "network"];
 
 const AddFriendForm = ({
   setShowModal,
 }: {
   setShowModal: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const utils = trpc.useContext();
   const mutation = trpc.friends.addFriend.useMutation({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -61,24 +60,21 @@ const AddFriendForm = ({
           phoneNumber: "",
           email: "",
           lastContacted: Date.now(),
-          tags: [],
         }}
         validate={validateValues}
         onSubmit={async (
-          { name, email, phoneNumber, lastContacted, tags },
+          { name, email, phoneNumber, lastContacted },
           { setSubmitting }
         ) => {
           // TODO:
           setSubmitting(true);
-
-          console.log(lastContacted);
-          console.log(new Date(lastContacted));
 
           await mutation.mutate({
             name: name,
             email: email === "" ? undefined : email,
             phoneNumber: phoneNumber === "" ? undefined : phoneNumber,
             lastContacted: lastContacted ? new Date(lastContacted) : undefined,
+            tags: selectedTags,
           });
 
           setSubmitting(false);
@@ -140,8 +136,8 @@ const AddFriendForm = ({
               touched={touched.lastContacted}
             />
             <MultiInput
-              selected={selected}
-              setSelected={setSelected}
+              selected={selectedTags}
+              setSelected={setSelectedTags}
               options={options}
               label={"Tags"}
             />

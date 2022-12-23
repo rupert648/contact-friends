@@ -1,25 +1,36 @@
-import { type Friend } from "@prisma/client";
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 
-import { TrashIcon, MailIcon, PhoneIcon, Clock, Person } from "../../icons";
+import TagSelectedBox from "../../shared/TagSelectedBox";
+import { TrashIcon, MailIcon, Clock, Person } from "../../icons";
+import type { FriendLimitedType } from ".";
 
 interface FriendCardProps {
-  friend: Friend;
+  friend: FriendLimitedType;
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
-  setToDelete: Dispatch<SetStateAction<Friend | null>>;
+  setToDelete: Dispatch<SetStateAction<string | null>>;
+  setSelectedFriend: Dispatch<SetStateAction<string | null>>;
 }
 
 const FriendCard = ({
   friend,
   setShowDeleteModal,
   setToDelete,
+  setSelectedFriend,
 }: FriendCardProps) => {
-  const { name, lastContacted } = friend;
+  const { name, lastContacted, tags } = friend;
+
+  let tagsArray: string[] | null = null;
+  if (tags) {
+    tagsArray = JSON.parse(tags);
+  }
 
   return (
-    <div className={`w-full border-y border-gray-400 p-2 `}>
-      <div className="relative flex items-center justify-between bg-white">
+    <div
+      onClick={() => setSelectedFriend(friend.id)}
+      className={`w-full cursor-pointer border-y border-gray-400 p-2 hover:bg-orange-100`}
+    >
+      <div className="relative flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <Person className="h-4 w-4" />
           <p className="text-md font-semibold">{name}</p>
@@ -32,13 +43,18 @@ const FriendCard = ({
           </button>
           <button
             onClick={() => {
-              setToDelete(friend);
+              setToDelete(friend.id);
               setShowDeleteModal(true);
             }}
           >
             <TrashIcon className="h-6 w-6 text-red-500" />
           </button>
-        </div>{" "}
+        </div>
+      </div>
+      <div className="flex">
+        {tagsArray?.map((tag) => (
+          <TagSelectedBox key={tag} tag={tag} />
+        ))}
       </div>
     </div>
   );

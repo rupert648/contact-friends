@@ -2,6 +2,9 @@ import type { Dispatch, SetStateAction } from "react";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 
+import { Check } from "../icons";
+import TagSelectedBox from "./TagSelectedBox";
+
 interface MultiInputProps {
   selected: string[];
   setSelected: Dispatch<SetStateAction<string[]>>;
@@ -26,9 +29,7 @@ function MultiInput({
             {selected.length > 0 ? (
               <div className="flex">
                 {selected.map((tag) => (
-                  <div key="tag" className="mx-1 rounded border px-6 text-left">
-                    <p>{tag}</p>
-                  </div>
+                  <TagSelectedBox key={tag} tag={tag} />
                 ))}
               </div>
             ) : (
@@ -42,7 +43,7 @@ function MultiInput({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Listbox.Options className="absolute mt-1 max-h-60 w-1/2 rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
             {options.map((s) => (
               <Listbox.Option
                 key={s}
@@ -63,7 +64,9 @@ function MultiInput({
                       {s}
                     </span>
                     {selected ? (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600"></span>
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-orange-600">
+                        <Check className="h-5 w-5" />
+                      </span>
                     ) : null}
                   </>
                 )}

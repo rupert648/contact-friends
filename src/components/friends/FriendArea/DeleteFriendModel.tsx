@@ -1,4 +1,3 @@
-import type { Friend } from "@prisma/client";
 import type { Dispatch, SetStateAction } from "react";
 import React from "react";
 
@@ -6,12 +5,12 @@ import { trpc } from "../../../utils/trpc";
 
 interface DeleteFriendModelProps {
   setShowModal: Dispatch<SetStateAction<boolean>>;
-  toDelete: Friend | null;
+  toDeleteId: string | null;
 }
 
 const DeleteFriendModel = ({
   setShowModal,
-  toDelete,
+  toDeleteId,
 }: DeleteFriendModelProps) => {
   const utils = trpc.useContext();
   const mutation = trpc.friends.deleteFriend.useMutation({
@@ -23,8 +22,8 @@ const DeleteFriendModel = ({
   });
 
   const handleDelete = async () => {
-    if (!toDelete) return;
-    await mutation.mutate({ id: toDelete.id });
+    if (!toDeleteId) return;
+    await mutation.mutate({ id: toDeleteId });
 
     setShowModal(false);
   };

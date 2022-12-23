@@ -65,6 +65,8 @@ model Friend {
   email         String?
   lastContacted DateTime @default(now())
   userId        String
+  tags          String?
+  notes         String?
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

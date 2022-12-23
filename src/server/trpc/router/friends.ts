@@ -11,11 +11,35 @@ export const friendsRouter = router({
       where: {
         id: user.id,
       },
-      include: {
-        Friend: true,
+      select: {
+        id: true,
+        Friend: {
+          select: {
+            id: true,
+            name: true,
+            lastContacted: true,
+            email: true,
+            tags: true,
+          },
+        },
       },
     });
   }),
+  getFriend: protectedProcedure
+    .input(
+      z.object({
+        id: z
+          .string({ required_error: "Friend ID is required." })
+          .cuid("Not a valid cuid."),
+      })
+    )
+    .query(({ input, ctx }) => {
+      return ctx.prisma.friend.findUniqueOrThrow({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
   addFriend: protectedProcedure
     .input(
       z.object({
@@ -36,6 +60,7 @@ export const friendsRouter = router({
             message: "Can't have last contacted someone after today!",
           })
           .optional(),
+        tags: z.string().array().optional(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -46,6 +71,7 @@ export const friendsRouter = router({
           phoneNumber: input.phoneNumber,
           userId: ctx.session.user.id,
           lastContacted: input.lastContacted,
+          tags: JSON.stringify(input.tags),
         },
       });
       return friend;
