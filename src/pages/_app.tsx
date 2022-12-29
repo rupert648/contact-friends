@@ -15,7 +15,7 @@ function MyApp({
     <SessionProvider session={session}>
       {Component.requireAuth ? (
         <AuthGuard>
-          <div className="bg-gradient-to-br from-white to-orange-50">
+          <div className="h-screen bg-gradient-to-br from-white to-orange-50">
             <NavBar />
             <Component {...pageProps} />
           </div>

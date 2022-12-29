@@ -10,6 +10,7 @@ interface FriendCardProps {
   setShowDeleteModal: Dispatch<SetStateAction<boolean>>;
   setToDelete: Dispatch<SetStateAction<string | null>>;
   setSelectedFriend: Dispatch<SetStateAction<string | null>>;
+  setOpenRightPanel: Dispatch<SetStateAction<boolean>>;
 }
 
 const FriendCard = ({
@@ -17,6 +18,7 @@ const FriendCard = ({
   setShowDeleteModal,
   setToDelete,
   setSelectedFriend,
+  setOpenRightPanel,
 }: FriendCardProps) => {
   const { name, lastContacted, tags, email } = friend;
 
@@ -27,7 +29,10 @@ const FriendCard = ({
 
   return (
     <div
-      onClick={() => setSelectedFriend(friend.id)}
+      onClick={() => {
+        setSelectedFriend(friend.id);
+        setOpenRightPanel(true);
+      }}
       className={`mb-3 w-full cursor-pointer rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl hover:bg-orange-100`}
     >
       <div className="relative flex items-center justify-between">

@@ -10,6 +10,7 @@ import type { sortMethods } from "../../../pages/friends";
 interface FriendAreaProps {
   sortMethod?: sortMethods;
   setSelectedFriend: Dispatch<SetStateAction<string | null>>;
+  setOpenRightPanel: Dispatch<SetStateAction<boolean>>;
 }
 
 // grabs the type of the limited friend result returned from
@@ -20,7 +21,10 @@ export type FriendLimitedType = Exclude<
   null
 >["Friend"][0];
 
-const FriendArea = ({ setSelectedFriend }: FriendAreaProps) => {
+const FriendArea = ({
+  setSelectedFriend,
+  setOpenRightPanel,
+}: FriendAreaProps) => {
   const [showDeleteFriendModal, setShowDeleteFriendModal] =
     useState<boolean>(false);
   const [toDelete, setToDelete] = useState<string | null>(null);
@@ -59,12 +63,13 @@ const FriendArea = ({ setSelectedFriend }: FriendAreaProps) => {
         setShowDeleteModal={setShowDeleteFriendModal}
         setToDelete={setToDelete}
         setSelectedFriend={setSelectedFriend}
+        setOpenRightPanel={setOpenRightPanel}
       />
     );
   };
 
   return (
-    <div className="w-full p-4">
+    <div className="mr-10 w-full p-4">
       <h1 className="text-lg text-gray-400 hover:text-gray-500">All Friends</h1>
       <hr className="mb-4 "></hr>
       {friendsSorted?.map(createFriendCard)}

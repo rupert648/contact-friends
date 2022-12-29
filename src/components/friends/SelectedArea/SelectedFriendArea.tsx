@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
+
 import { trpc } from "../../../utils/trpc";
-import { Clock, MailIcon, Person, PhoneIcon, Spinner } from "../../icons";
+import {
+  ChevronDoubleRight,
+  Clock,
+  MailIcon,
+  Person,
+  PhoneIcon,
+  Spinner,
+} from "../../icons";
 import TagSelectedBox from "../../shared/TagSelectedBox";
 
 interface SelectedFriendAreaProps {
@@ -57,17 +65,18 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
   }
 
   return (
-    <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl">
+    <>
+      {/* <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl"> */}
       <div className="grid grid-cols-1 divide-y p-2">
         <div className="my-2">
-          <Person className="m-auto my-4 h-10 w-10" />
+          <Person className="m-auto my-4 h-20 w-20" />
           <p className="text-xs font-thin">name</p>
-          <h1 className="text-xl font-normal">{data.name}</h1>
+          <h1 className="text-4xl font-normal">{data.name}</h1>
         </div>
         <div className="py-2">
-          <h3 className="pb-2 text-sm font-normal">Details</h3>
+          <h3 className="pb-2 text-lg font-normal">Details</h3>
           <table className="border-spacing-x-4">
-            <tbody className="text-xs">
+            <tbody className="text-md">
               <tr>
                 <td className="w-32 font-thin">Last Contacted</td>
                 <td>
@@ -122,10 +131,10 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           </table>
         </div>
         <div>
-          <h3 className="pb-2 text-sm font-normal">Notes </h3>
+          <h3 className="pb-2 text-lg font-normal">Notes </h3>
           {!showAddNotesArea ? (
             <div className="">
-              <p className="text-xs font-light">{data.notes}</p>
+              <p className="text-md font-light">{data.notes}</p>
 
               <button
                 onClick={() => {
@@ -170,7 +179,8 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           )}
         </div>
       </div>
-    </div>
+      {/* </div> */}
+    </>
   );
 };
 
