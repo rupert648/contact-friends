@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { trpc } from "../../../utils/trpc";
-import {
-  ChevronDoubleRight,
-  Clock,
-  MailIcon,
-  Person,
-  PhoneIcon,
-  Spinner,
-} from "../../icons";
+import { Clock, MailIcon, Person, PhoneIcon, Spinner } from "../../icons";
 import TagSelectedBox from "../../shared/TagSelectedBox";
 
 interface SelectedFriendAreaProps {

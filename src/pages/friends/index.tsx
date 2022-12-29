@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import type NextAuthPage from "../../types/NextAuthPage";
-import AddFriendModal from "../../components/friends/AddFriendModel/AddFriendModal";
 import FriendArea from "../../components/friends/FriendArea";
 import SelectedArea from "../../components/friends/SelectedArea";
 import LeftMenu from "../../components/friends/LeftMenu";
 import RightSlideIn from "../../components/shared/RightSlideInProps";
+import AddFriendForm from "../../components/friends/AddFriendModel/AddFriendForm";
 
 export type sortMethods = "name" | "lastContacted" | undefined;
 
@@ -25,7 +25,9 @@ const FriendsPage: NextAuthPage = () => {
           setOpenRightPanel={setOpenRightPanel}
         />
       </div>
-      {showModal && <AddFriendModal setShowModal={setShowModal} />}
+      <RightSlideIn openRightPanel={showModal} setOpenRightPanel={setShowModal}>
+        <AddFriendForm setShowModal={setShowModal} />
+      </RightSlideIn>
       <RightSlideIn
         openRightPanel={openRightPanel}
         setOpenRightPanel={setOpenRightPanel}
