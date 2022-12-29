@@ -18,7 +18,7 @@ const FriendCard = ({
   setToDelete,
   setSelectedFriend,
 }: FriendCardProps) => {
-  const { name, lastContacted, tags } = friend;
+  const { name, lastContacted, tags, email } = friend;
 
   let tagsArray: string[] | null = null;
   if (tags) {
@@ -28,7 +28,7 @@ const FriendCard = ({
   return (
     <div
       onClick={() => setSelectedFriend(friend.id)}
-      className={`w-full cursor-pointer border-y border-gray-400 p-2 hover:bg-orange-100`}
+      className={`mb-3 w-full cursor-pointer rounded-lg border-2 border-gray-400 border-l-orange-500 p-2 shadow-lg drop-shadow-xl hover:bg-orange-100`}
     >
       <div className="relative flex items-center justify-between">
         <div className="flex items-center space-x-2">
@@ -38,9 +38,16 @@ const FriendCard = ({
         <div className="flex items-center space-x-2">
           <Clock />
           <p className="text-xs font-light">{lastContacted?.toDateString()}</p>
-          <button>
-            <MailIcon className="h-6 w-6 text-green-500" />
-          </button>
+          {email && (
+            <button
+              onClick={() => {
+                const href = `mailto:${email}`;
+                window.location.href = href;
+              }}
+            >
+              <MailIcon className="h-6 w-6 text-green-500" />
+            </button>
+          )}
           <button
             onClick={() => {
               setToDelete(friend.id);

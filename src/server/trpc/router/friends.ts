@@ -91,4 +91,23 @@ export const friendsRouter = router({
       });
       return result;
     }),
+
+  updateFriendNotes: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "Friend ID is required" }).cuid(),
+        notes: z.string({ required_error: "Notes are required" }),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const result = await ctx.prisma.friend.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          notes: input.notes,
+        },
+      });
+      return result;
+    }),
 });

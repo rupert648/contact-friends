@@ -63,85 +63,11 @@ const FriendArea = ({ setSelectedFriend }: FriendAreaProps) => {
     );
   };
 
-  const monthDiff = (d1: Date, d2: Date) => {
-    let months;
-    months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth();
-    months += d2.getMonth();
-    return months <= 0 ? 0 : months;
-  };
-
-  const gtSixMonths = friendsSorted
-    ?.filter((friend) => {
-      const monthsDiff = monthDiff(friend.lastContacted, new Date());
-      return monthsDiff >= 6;
-    })
-    .map(createFriendCard);
-
-  const gtOneMonth = friendsSorted
-    ?.filter((friend) => {
-      const monthsDiff = monthDiff(friend.lastContacted, new Date());
-      return monthsDiff >= 1 && monthsDiff < 6;
-    })
-    .map(createFriendCard);
-
-  const ltOneMonth = friendsSorted
-    ?.filter((friend) => {
-      const monthsDiff = monthDiff(friend.lastContacted, new Date());
-      return monthsDiff < 1;
-    })
-    .map(createFriendCard);
-
   return (
-    <div className="w-full border border-gray-400">
-      <div className={`w-full border border-gray-400 bg-gray-100 p-2`}>
-        <h1 className="text-sm font-thin tracking-wider text-gray-400 hover:text-gray-500">
-          {">"} 6 Months
-        </h1>
-      </div>
-      <div>
-        {gtSixMonths?.length !== 0 ? (
-          gtSixMonths
-        ) : (
-          <div className="w-full border border-gray-400 p-2">
-            <p className="text-md font-semibold">
-              No Friends before six months
-            </p>
-          </div>
-        )}
-      </div>
-      <div className={`w-full border border-gray-400 bg-gray-100 p-2`}>
-        <h1 className="text-sm font-thin tracking-wider text-gray-400 hover:text-gray-500">
-          {">"} 1 Months
-        </h1>
-      </div>
-      <div>
-        {gtOneMonth?.length !== 0 ? (
-          gtOneMonth
-        ) : (
-          <div className="w-full border border-gray-400 p-2">
-            <p className="text-md font-semibold">
-              No Friends before one months
-            </p>
-          </div>
-        )}
-      </div>
-      <div className={`w-full border border-gray-400 bg-gray-100 p-2`}>
-        <h1 className="text-sm font-thin tracking-wider text-gray-400 hover:text-gray-500">
-          {"<="} 1 Months
-        </h1>
-      </div>
-      <div>
-        {ltOneMonth?.length !== 0 ? (
-          ltOneMonth
-        ) : (
-          <div className="w-full border border-gray-400 p-2">
-            <p className="text-md font-semibold">
-              No Friends before one months
-            </p>
-          </div>
-        )}
-      </div>
+    <div className="w-full p-4">
+      <h1 className="text-lg">All Friends</h1>
+      <hr className="mb-4 "></hr>
+      {friendsSorted?.map(createFriendCard)}
       {showDeleteFriendModal && (
         <DeleteFriendModel
           setShowModal={setShowDeleteFriendModal}

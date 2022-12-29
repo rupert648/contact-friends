@@ -3,8 +3,8 @@ import type NextAuthPage from "../../types/NextAuthPage";
 
 import AddFriendModal from "../../components/friends/AddFriendModel/AddFriendModal";
 import FriendArea from "../../components/friends/FriendArea";
-import Button from "../../components/shared/Button";
 import SelectedArea from "../../components/friends/SelectedArea";
+import LeftMenu from "../../components/friends/LeftMenu";
 
 export type sortMethods = "name" | "lastContacted" | undefined;
 
@@ -15,11 +15,11 @@ const FriendsPage: NextAuthPage = () => {
   return (
     <>
       <div className="flex">
-        <div className="w-64 flex-auto border-4 border-gray-100">
-          <Button onClick={() => setShowModal(true)}>Add new Friend</Button>
+        <div className="mr-10 ml-4 mt-10 flex-auto">
+          <LeftMenu setShowModal={setShowModal} />
         </div>
         <FriendArea setSelectedFriend={setSelectedFriend} />
-        <div className="border-grey-100 flex-1 border-4">
+        <div className="ml-10 mr-4 mt-10 flex-1">
           <SelectedArea selectedFriend={selectedFriend} />
         </div>
       </div>
