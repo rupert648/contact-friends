@@ -28,7 +28,7 @@ const FriendCard = ({
   return (
     <div
       onClick={() => setSelectedFriend(friend.id)}
-      className={`mb-3 w-full cursor-pointer rounded-lg border-2 border-gray-400 border-l-orange-500 p-2 shadow-lg drop-shadow-xl hover:bg-orange-100`}
+      className={`mb-3 w-full cursor-pointer rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl hover:bg-orange-100`}
     >
       <div className="relative flex items-center justify-between">
         <div className="flex items-center space-x-2">

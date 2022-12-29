@@ -8,7 +8,7 @@ interface LeftMenuProps {
 
 const LeftMenu = ({ setShowModal }: LeftMenuProps) => {
   return (
-    <div className="min-h-max w-64 rounded-lg border-2 border-gray-400 border-l-orange-500 p-2 shadow-lg drop-shadow-xl">
+    <div className="min-h-max w-64 rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl">
       <Button onClick={() => setShowModal(true)}>Add new Friend</Button>
     </div>
   );

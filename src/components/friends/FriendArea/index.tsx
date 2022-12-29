@@ -65,7 +65,7 @@ const FriendArea = ({ setSelectedFriend }: FriendAreaProps) => {
 
   return (
     <div className="w-full p-4">
-      <h1 className="text-lg">All Friends</h1>
+      <h1 className="text-lg text-gray-400 hover:text-gray-500">All Friends</h1>
       <hr className="mb-4 "></hr>
       {friendsSorted?.map(createFriendCard)}
       {showDeleteFriendModal && (

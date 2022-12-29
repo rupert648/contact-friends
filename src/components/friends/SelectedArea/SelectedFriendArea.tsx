@@ -57,7 +57,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
   }
 
   return (
-    <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 p-2 shadow-lg drop-shadow-xl">
+    <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl">
       <div className="grid grid-cols-1 divide-y p-2">
         <div className="my-2">
           <Person className="m-auto my-4 h-10 w-10" />

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSession } from "next-auth/react";
 
-const AuthGuard = ({ children }: { children: JSX.Element[] }) => {
+const AuthGuard = ({ children }: { children: JSX.Element[] | JSX.Element }) => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {

@@ -8,11 +8,7 @@ interface SelectedAreaProps {
 
 const SelectedArea = ({ selectedFriend }: SelectedAreaProps) => {
   if (!selectedFriend) {
-    return (
-      <div className="w-80">
-        <p>no Friend Selected</p>
-      </div>
-    );
+    return <div className="w-80"></div>;
   }
 
   return (

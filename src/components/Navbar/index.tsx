@@ -34,7 +34,7 @@ const NavBar: React.FC = () => {
   });
 
   return (
-    <nav className="relative flex items-center justify-between bg-white px-4 py-4">
+    <nav className="relative flex items-center justify-between  px-4 py-4">
       <div className="lg:hidden">
         <button className="navbar-burger flex items-center p-3 text-blue-600">
           <svg
