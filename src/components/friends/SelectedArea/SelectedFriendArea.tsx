@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 import { trpc } from "../../../utils/trpc";
 import {
@@ -19,6 +20,7 @@ interface SelectedFriendAreaProps {
 const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
   const [showAddNotesArea, setShowAddNotesArea] = useState<boolean>(false);
   const [notesValue, setNotesValue] = useState<string>("");
+  const [file, setFile] = useState<any>(null);
 
   useEffect(() => {
     // each time friendId is changed
@@ -55,6 +57,34 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
     },
   });
 
+  const { mutate: uploadImage } = trpc.images.upload.useMutation();
+
+  const toBase64 = (file: any): Promise<string | ArrayBuffer | null> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const uploadNewImage = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!file || !data) return;
+
+    // encode the image as base64 (so can be sent alongside JSON)
+    const base64 = await toBase64(file);
+    if (typeof base64 != "string") return;
+
+    await uploadImage({ id: data?.id, imageBase64: base64 });
+
+    // invalidate to re-get the friend with the new url
+    utils.friends.getFriend.invalidate({ id: friendId });
+  };
+
+  const onFileChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setFile(e.currentTarget.files?.[0]);
+  };
+
   if (error) {
     return <p>an error occurred</p>;
   }
@@ -77,9 +107,26 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
       {/* <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl"> */}
       <div className="grid grid-cols-1 divide-y p-2">
         <div className="my-2">
-          <Person className="m-auto my-4 h-20 w-20" />
-          <p className="text-xs font-thin">name</p>
-          <h1 className="text-4xl font-normal">{data.name}</h1>
+          <form onSubmit={uploadNewImage}>
+            <input onChange={onFileChange} type="file"></input>
+            <button type="submit">submit</button>
+
+            {data?.imageUrl ? (
+              <Image
+                src={data.imageUrl}
+                width={100}
+                height={100}
+                className="m-auto my-4 "
+                alt="Picture of the friend"
+                style={{ borderRadius: "100%" }}
+              />
+            ) : (
+              <Person className="m-auto my-4 h-20 w-20" />
+            )}
+
+            <p className="text-xs font-thin">name</p>
+            <h1 className="text-4xl font-normal">{data.name}</h1>
+          </form>
         </div>
         <div className="py-2">
           <div className="flex items-center">

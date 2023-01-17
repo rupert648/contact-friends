@@ -5,6 +5,8 @@
  */
 !process.env.SKIP_ENV_VALIDATION && (await import("./src/env/server.mjs"));
 
+import { env } from "./src/env/server.mjs";
+
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
@@ -13,5 +15,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: `${env.AWS_BUCKET_NAME}.s3.eu-west-2.amazonaws.com`,
+        port: '',
+        pathname: '/**'
+      }
+    ]
+  }
 };
 export default config;
