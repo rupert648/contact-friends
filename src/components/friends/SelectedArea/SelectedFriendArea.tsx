@@ -1,8 +1,16 @@
 import { useState, useEffect } from "react";
 
 import { trpc } from "../../../utils/trpc";
-import { Clock, MailIcon, Person, PhoneIcon, Spinner } from "../../icons";
+import {
+  Clock,
+  MailIcon,
+  Person,
+  PhoneIcon,
+  Spinner,
+  CheckCircle,
+} from "../../icons";
 import TagSelectedBox from "../../shared/TagSelectedBox";
+import EditableTextField from "./EditableField";
 
 interface SelectedFriendAreaProps {
   friendId: string;
@@ -32,11 +40,18 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
       },
     }
   );
-  const { mutate } = trpc.friends.updateFriendNotes.useMutation({
+  const { mutate: updateFriendNotes } =
+    trpc.friends.updateFriendNotes.useMutation({
+      onSuccess() {
+        // invalidate the query to re-fetch friend with updates
+        utils.friends.getFriend.invalidate({ id: friendId });
+        setShowAddNotesArea(false);
+      },
+    });
+
+  const { mutate: setSeenToday } = trpc.friends.setSeenToday.useMutation({
     onSuccess() {
-      // invalidate the query to re-fetch friend with updates
       utils.friends.getFriend.invalidate({ id: friendId });
-      setShowAddNotesArea(false);
     },
   });
 
@@ -67,22 +82,36 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           <h1 className="text-4xl font-normal">{data.name}</h1>
         </div>
         <div className="py-2">
-          <h3 className="pb-2 text-lg font-normal">Details</h3>
+          <div className="flex items-center">
+            <h3 className="pb-2 pr-4 text-lg font-normal">Details</h3>
+            <button
+              className="pb-2 text-sm font-normal"
+              onClick={async () => await setSeenToday({ id: friendId })}
+              title="Set to seen today."
+            >
+              <CheckCircle className="h-6 w-6 rounded-full bg-green-400 text-white hover:bg-green-600" />
+            </button>
+          </div>
           <table className="border-spacing-x-4">
             <tbody className="text-md">
               <tr>
                 <td className="w-32 font-thin">Last Contacted</td>
                 <td>
-                  <div className="flex items-center space-x-2">
-                    <Clock /> <p>{data.lastContacted.toDateString()}</p>
+                  <div className="flex cursor-text items-center space-x-2 rounded-md px-1 hover:bg-orange-100">
+                    <Clock />
+                    <p>{data.lastContacted.toDateString()}</p>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td className="font-thin">Email</td>
                 <td>
-                  <div className="flex items-center space-x-2">
-                    <MailIcon className="h-3 w-3" />{" "}
+                  <EditableTextField
+                    startValue={data.email}
+                    fieldName="email"
+                    friendId={data.id}
+                  >
+                    <MailIcon className="h-3 w-3" />
                     <p>
                       {data.email ? (
                         data.email
@@ -90,13 +119,17 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
                         <span className="font-thin">no email</span>
                       )}
                     </p>
-                  </div>
+                  </EditableTextField>
                 </td>
               </tr>
               <tr>
                 <td className="font-thin">Phone</td>
                 <td>
-                  <div className="flex items-center space-x-2">
+                  <EditableTextField
+                    startValue={data.phoneNumber}
+                    fieldName="phoneNumber"
+                    friendId={data.id}
+                  >
                     <PhoneIcon className="h-3 w-3" />
                     <p>
                       {data.phoneNumber ? (
@@ -105,7 +138,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
                         <span className="font-thin">no phone</span>
                       )}
                     </p>
-                  </div>
+                  </EditableTextField>
                 </td>
               </tr>
               <tr>
@@ -153,7 +186,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
                 onClick={async () => {
                   if (!notesValue) return;
 
-                  await mutate({ id: friendId, notes: notesValue });
+                  await updateFriendNotes({ id: friendId, notes: notesValue });
                 }}
                 className="m-1 rounded-lg border border-gray-300 py-0.5 px-1 text-xs font-thin hover:bg-gray-100"
               >
