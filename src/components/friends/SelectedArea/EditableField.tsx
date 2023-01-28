@@ -51,7 +51,7 @@ const EditableTextField = ({
       {isEditing ? (
         <>
           <input
-            className="w-4/5"
+            className="w-4/5 border-2 border-orange-500"
             value={currentValue}
             onChange={(e) => setCurrentValue(e.target.value)}
           ></input>
