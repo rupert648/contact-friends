@@ -110,23 +110,23 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           <form onSubmit={uploadNewImage}>
             <input onChange={onFileChange} type="file"></input>
             <button type="submit">submit</button>
-
-            {data?.imageUrl ? (
-              <Image
-                src={data.imageUrl}
-                width={100}
-                height={100}
-                className="m-auto my-4 "
-                alt="Picture of the friend"
-                style={{ borderRadius: "100%" }}
-              />
-            ) : (
-              <Person className="m-auto my-4 h-20 w-20" />
-            )}
-
-            <p className="text-xs font-thin">name</p>
-            <h1 className="text-4xl font-normal">{data.name}</h1>
           </form>
+
+          {data?.imageUrl ? (
+            <Image
+              src={data.imageUrl}
+              width={100}
+              height={100}
+              className="m-auto my-4 "
+              alt="Picture of the friend"
+              style={{ borderRadius: "100%" }}
+            />
+          ) : (
+            <Person className="m-auto my-4 h-20 w-20" />
+          )}
+
+          <p className="text-xs font-thin">name</p>
+          <h1 className="text-4xl font-normal">{data.name}</h1>
         </div>
         <div className="py-2">
           <div className="flex items-center">
