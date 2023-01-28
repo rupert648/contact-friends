@@ -81,9 +81,11 @@ const FriendCard = ({
             </div>
           </div>
           <div className="flex">
-            {tagsArray?.map((tag) => (
-              <TagSelectedBox key={tag} tag={tag} />
-            ))}
+            {tagsArray ? (
+              tagsArray?.map((tag) => <TagSelectedBox key={tag} tag={tag} />)
+            ) : (
+              <p className="text-left text-xs font-light">no tags</p>
+            )}
           </div>
         </div>
       </div>
