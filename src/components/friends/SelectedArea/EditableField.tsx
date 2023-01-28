@@ -4,7 +4,7 @@ import { CheckCircle, TrashIcon } from "../../icons";
 
 interface EditableTextFieldProps {
   children: JSX.Element | JSX.Element[];
-  startValue: string | null;
+  startValue: string | undefined;
   fieldName: string;
   friendId: string;
 }
@@ -16,7 +16,9 @@ const EditableTextField = ({
   fieldName,
 }: EditableTextFieldProps) => {
   const [isEditing, setIsEditing] = useState<boolean>();
-  const [currentValue, setCurrentValue] = useState<string | null>(startValue);
+  const [currentValue, setCurrentValue] = useState<string | undefined>(
+    startValue
+  );
 
   const utils = trpc.useContext();
 
@@ -46,7 +48,7 @@ const EditableTextField = ({
         setIsEditing(true);
       }}
     >
-      {isEditing && currentValue ? (
+      {isEditing ? (
         <>
           <input
             className="w-4/5"

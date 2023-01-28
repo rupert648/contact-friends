@@ -154,7 +154,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
                 <td className="font-thin">Email</td>
                 <td>
                   <EditableTextField
-                    startValue={data.email}
+                    startValue={data.email ? data.email : ""}
                     fieldName="email"
                     friendId={data.id}
                   >
@@ -173,7 +173,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
                 <td className="font-thin">Phone</td>
                 <td>
                   <EditableTextField
-                    startValue={data.phoneNumber}
+                    startValue={data.phoneNumber ? data.phoneNumber : ""}
                     fieldName="phoneNumber"
                     friendId={data.id}
                   >
