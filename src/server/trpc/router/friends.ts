@@ -20,6 +20,7 @@ export const friendsRouter = router({
             lastContacted: true,
             email: true,
             tags: true,
+            imageUrl: true,
           },
         },
       },

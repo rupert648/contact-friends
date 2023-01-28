@@ -4,7 +4,7 @@ import type NextAuthPage from "../../types/NextAuthPage";
 import FriendArea from "../../components/friends/FriendArea";
 import SelectedArea from "../../components/friends/SelectedArea";
 import LeftMenu from "../../components/friends/LeftMenu";
-import RightSlideIn from "../../components/shared/RightSlideInProps";
+import RightSlideIn from "../../components/shared/RightSlideIn";
 import AddFriendForm from "../../components/friends/AddFriendModel/AddFriendForm";
 
 export type sortMethods = "name" | "lastContacted" | undefined;
