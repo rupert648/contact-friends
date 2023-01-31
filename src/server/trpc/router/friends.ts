@@ -20,6 +20,7 @@ export const friendsRouter = router({
             lastContacted: true,
             email: true,
             tags: true,
+            imageUrl: true,
           },
         },
       },
@@ -106,6 +107,53 @@ export const friendsRouter = router({
         },
         data: {
           notes: input.notes,
+        },
+      });
+      return result;
+    }),
+
+  updateFriendTextField: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "Friend ID is required" }).cuid(),
+        phoneNumber: z
+          .string()
+          .regex(phoneRegex, { message: "Not a valid Phone Number" })
+          .nullish()
+          .optional(),
+        email: z
+          .string()
+          .email({ message: "Not a valid Phone Number" })
+          .nullish()
+          .optional(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const result = await ctx.prisma.friend.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+        },
+      });
+      return result;
+    }),
+
+  setSeenToday: protectedProcedure
+    .input(
+      z.object({
+        id: z.string({ required_error: "Friend ID is required" }).cuid(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      const nowDate = new Date();
+      const result = await ctx.prisma.friend.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          lastContacted: nowDate,
         },
       });
       return result;

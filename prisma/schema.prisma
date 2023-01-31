@@ -67,6 +67,7 @@ model Friend {
   userId        String
   tags          String?
   notes         String?
+  imageUrl      String?
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
