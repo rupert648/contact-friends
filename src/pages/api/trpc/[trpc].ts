@@ -4,6 +4,8 @@ import { env } from "../../../env/server.mjs";
 import { createContext } from "../../../server/trpc/context";
 import { appRouter } from "../../../server/trpc/router/_app";
 
+export const config = { api: { bodyParser: { sizeLimit: "4mb" } } };
+
 // export API handler
 export default createNextApiHandler({
   router: appRouter,
