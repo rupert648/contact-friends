@@ -59,6 +59,8 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
 
   const { mutate: uploadImage } = trpc.images.upload.useMutation();
 
+  // explicit any used as files are annoying
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const toBase64 = (file: any): Promise<string | ArrayBuffer | null> =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -104,7 +106,6 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
 
   return (
     <>
-      {/* <div className="min-h-max w-full rounded-lg border-2 border-gray-400 border-l-orange-500 bg-white p-2 shadow-lg drop-shadow-xl"> */}
       <div className="grid grid-cols-1 divide-y p-2">
         <div className="my-2">
           <form onSubmit={uploadNewImage}>
@@ -126,7 +127,13 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           )}
 
           <p className="text-xs font-thin">name</p>
-          <h1 className="text-4xl font-normal">{data.name}</h1>
+          <EditableTextField
+            startValue={data.name}
+            fieldName="name"
+            friendId={data.id}
+          >
+            <h1 className="text-4xl font-normal">{data.name}</h1>
+          </EditableTextField>
         </div>
         <div className="py-2">
           <div className="flex items-center">
@@ -252,7 +259,6 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
           )}
         </div>
       </div>
-      {/* </div> */}
     </>
   );
 };

@@ -24,8 +24,8 @@ const EditableTextField = ({
 
   const { mutate } = trpc.friends.updateFriendTextField.useMutation({
     onSuccess() {
-      // invalidate query
       utils.friends.getFriend.invalidate({ id: friendId });
+      utils.friends.getAll.invalidate();
       setIsEditing(false);
     },
   });

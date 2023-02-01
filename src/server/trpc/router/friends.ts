@@ -116,15 +116,14 @@ export const friendsRouter = router({
     .input(
       z.object({
         id: z.string({ required_error: "Friend ID is required" }).cuid(),
+        name: z.string().min(4, "Minimum 4 characters name").optional(),
         phoneNumber: z
           .string()
           .regex(phoneRegex, { message: "Not a valid Phone Number" })
-          .nullish()
           .optional(),
         email: z
           .string()
           .email({ message: "Not a valid Phone Number" })
-          .nullish()
           .optional(),
       })
     )
