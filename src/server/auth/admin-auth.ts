@@ -4,8 +4,6 @@ import { env } from "../../env/server.mjs";
 export const isAdmin = (headers: IncomingHttpHeaders) => {
   const bearerValue = getBearerValue(headers);
   if (!bearerValue) return false;
-  console.log(bearerValue);
-  console.log(env.ADMIN_PASSWORD);
 
   return bearerValue === env.ADMIN_PASSWORD;
 };
