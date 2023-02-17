@@ -7,12 +7,12 @@ import { trpc } from "../../../utils/trpc";
 import DeleteFriendModel from "./DeleteFriendModel";
 import FriendCard from "./FriendCard";
 import type { sortMethods } from "../../../pages/friends";
-import { SearchBar } from "./SearchBar";
 
 interface FriendAreaProps {
   sortMethod?: sortMethods;
   setSelectedFriend: Dispatch<SetStateAction<string | null>>;
   setOpenRightPanel: Dispatch<SetStateAction<boolean>>;
+  searchValue: string;
 }
 
 // grabs the type of the limited friend result returned from
@@ -31,11 +31,11 @@ const fuseOptions: Fuse.IFuseOptions<FriendLimitedType> = {
 const FriendArea = ({
   setSelectedFriend,
   setOpenRightPanel,
+  searchValue,
 }: FriendAreaProps) => {
   const [showDeleteFriendModal, setShowDeleteFriendModal] =
     useState<boolean>(false);
   const [toDelete, setToDelete] = useState<string | null>(null);
-  const [searchValue, setSearchValue] = useState<string>("");
   const { data, isLoading, error } = trpc.friends.getAll.useQuery();
 
   if (isLoading) {
@@ -85,7 +85,6 @@ const FriendArea = ({
   return (
     <div className="mr-10 w-full p-4">
       <h1 className="text-lg text-gray-400 hover:text-gray-500">All Friends</h1>
-      <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
       <hr className="mb-4 "></hr>
       {friendsSorted?.map(createFriendCard)}
       {showDeleteFriendModal && (

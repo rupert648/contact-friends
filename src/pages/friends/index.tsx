@@ -13,16 +13,22 @@ const FriendsPage: NextAuthPage = () => {
   const [openRightPanel, setOpenRightPanel] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedFriend, setSelectedFriend] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState<string>("");
 
   return (
     <>
       <div className="flex">
         <div className="mr-10 ml-4 mt-10 flex-auto">
-          <LeftMenu setShowModal={setShowModal} />
+          <LeftMenu
+            setShowModal={setShowModal}
+            searchValue={searchValue}
+            setSearchvalue={setSearchValue}
+          />
         </div>
         <FriendArea
           setSelectedFriend={setSelectedFriend}
           setOpenRightPanel={setOpenRightPanel}
+          searchValue={searchValue}
         />
       </div>
       <RightSlideIn openRightPanel={showModal} setOpenRightPanel={setShowModal}>
