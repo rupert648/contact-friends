@@ -157,4 +157,36 @@ export const friendsRouter = router({
       });
       return result;
     }),
+
+  getTags: protectedProcedure.query(async ({ ctx }) => {
+    const { user } = ctx.session;
+    const result = await ctx.prisma.user.findUnique({
+      where: {
+        id: user.id,
+      },
+      select: {
+        id: true,
+        Friend: {
+          select: {
+            tags: true,
+          },
+        },
+      },
+    });
+
+    if (!result) return [];
+
+    return result.Friend.reduce<string[] | undefined>((prev, { tags }) => {
+      if (!prev) return [];
+      // could use regex but eh
+      // this is arguably more readable anyway
+      const tagsArr = tags
+        ?.replaceAll('"', "")
+        .replace("[", "")
+        .replace("]", "")
+        .split(",");
+      if (!tagsArr) return;
+      return [...new Set([...prev, ...tagsArr])];
+    }, []);
+  }),
 });

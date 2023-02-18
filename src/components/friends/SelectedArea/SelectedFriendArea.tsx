@@ -54,6 +54,7 @@ const SelectedFriendArea = ({ friendId }: SelectedFriendAreaProps) => {
   const { mutate: setSeenToday } = trpc.friends.setSeenToday.useMutation({
     onSuccess() {
       utils.friends.getFriend.invalidate({ id: friendId });
+      utils.friends.getAll.invalidate();
     },
   });
 
