@@ -13,6 +13,7 @@ interface FriendAreaProps {
   setSelectedFriend: Dispatch<SetStateAction<string | null>>;
   setOpenRightPanel: Dispatch<SetStateAction<boolean>>;
   searchValue: string;
+  filterByTags: string[];
 }
 
 // grabs the type of the limited friend result returned from
@@ -32,6 +33,7 @@ const FriendArea = ({
   setSelectedFriend,
   setOpenRightPanel,
   searchValue,
+  filterByTags,
 }: FriendAreaProps) => {
   const [showDeleteFriendModal, setShowDeleteFriendModal] =
     useState<boolean>(false);
@@ -62,6 +64,23 @@ const FriendArea = ({
   };
 
   let friendsSorted = data?.Friend.sort(sortByLastContacted);
+
+  if (filterByTags.length > 0) {
+    friendsSorted = friendsSorted?.filter((friend) => {
+      return filterByTags.find((tag) => {
+        const { tags } = friend;
+        // tags are stored as stringified arrays so can be stored
+        // in SQL DB - could atomise but not worth for short arrays
+        const tagsArr = tags
+          ?.replace("[", "")
+          .replace("]", "")
+          .replaceAll('"', "")
+          .trim()
+          .split(",");
+        if (tagsArr?.includes(tag)) return true;
+      });
+    });
+  }
 
   if (searchValue && friendsSorted) {
     // perform fuse search
