@@ -105,7 +105,11 @@ const FriendArea = ({
     <div className="mr-10 w-full p-4">
       <h1 className="text-lg text-gray-400 hover:text-gray-500">All Friends</h1>
       <hr className="mb-4 "></hr>
-      {friendsSorted?.map(createFriendCard)}
+      {friendsSorted && friendsSorted?.length > 0 ? (
+        friendsSorted?.map(createFriendCard)
+      ) : (
+        <p className="font-extralight">no friends mate</p>
+      )}
       {showDeleteFriendModal && (
         <DeleteFriendModel
           setShowModal={setShowDeleteFriendModal}

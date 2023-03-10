@@ -184,6 +184,7 @@ export const friendsRouter = router({
         ?.replaceAll('"', "")
         .replace("[", "")
         .replace("]", "")
+        .trim()
         .split(",");
       if (!tagsArr) return;
       return [...new Set([...prev, ...tagsArr])];

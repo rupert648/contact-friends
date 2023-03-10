@@ -6,6 +6,7 @@ import { SearchBar } from "../FriendArea/SearchBar";
 import { Spinner } from "../../icons";
 import { getColor } from "../../shared/TagSelectedBox";
 import type { ACTIONS } from "../../../pages/friends";
+import MyDropdown from "./MyDropdown";
 
 interface LeftMenuProps {
   setShowModal: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +14,8 @@ interface LeftMenuProps {
   setSearchvalue: Dispatch<SetStateAction<string>>;
   tagsDispatcher: Dispatch<ACTIONS>;
 }
+
+const SORT_BY_OPTIONS = ["Last Contacted", "Name", "Email"];
 
 const LeftMenu = ({
   setShowModal,
@@ -70,6 +73,9 @@ const LeftMenu = ({
           </ul>
         </>
       )}
+      <hr className="py-2"></hr>
+      <h1 className="pl-1 text-sm text-gray-600 ">Sort By</h1>
+      <MyDropdown />
     </div>
   );
 };

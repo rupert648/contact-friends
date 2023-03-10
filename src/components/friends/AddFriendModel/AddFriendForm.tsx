@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import type { Dispatch, SetStateAction } from "react";
+import { useState } from "react";
 import React from "react";
 import { Formik } from "formik";
 
@@ -13,6 +14,8 @@ interface values {
   email?: string;
   lastContacted?: number;
 }
+
+type errors = { [k in keyof values]: string };
 
 const phoneRegex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
@@ -34,8 +37,13 @@ const AddFriendForm = ({
     },
   });
 
-  const validateValues = ({ name, phoneNumber, email }: values) => {
-    const errors: values = {};
+  const validateValues = ({
+    name,
+    phoneNumber,
+    email,
+    lastContacted,
+  }: values) => {
+    const errors: errors = {};
 
     if (!name) {
       errors.name = "Required";
@@ -47,6 +55,10 @@ const AddFriendForm = ({
 
     if (phoneNumber && !phoneRegex.test(phoneNumber)) {
       errors.phoneNumber = "Invalid phone number";
+    }
+
+    if (lastContacted && new Date(lastContacted).getTime() > Date.now()) {
+      errors.lastContacted = "Invalid Date";
     }
 
     return errors;
@@ -97,7 +109,7 @@ const AddFriendForm = ({
               onBlur={handleBlur}
               value={values.name}
               placeholder={"John Smith"}
-              label={"Full Name"}
+              label={"Full Name *"}
               errors={errors.name}
               touched={touched.name}
             />
