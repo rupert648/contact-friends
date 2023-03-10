@@ -5,7 +5,7 @@ import { trpc } from "../../../utils/trpc";
 import { SearchBar } from "../FriendArea/SearchBar";
 import { Spinner } from "../../icons";
 import { getColor } from "../../shared/TagSelectedBox";
-import type { ACTIONS } from "../../../pages/friends";
+import type { ACTIONS, SortByOptions } from "../../../pages/friends";
 import MyDropdown from "./MyDropdown";
 
 interface LeftMenuProps {
@@ -13,15 +13,19 @@ interface LeftMenuProps {
   searchValue: string;
   setSearchvalue: Dispatch<SetStateAction<string>>;
   tagsDispatcher: Dispatch<ACTIONS>;
+  sortByOptions: SortByOptions;
+  selectedSortByOption: SortByOptions[number] | null;
+  setSortByOption: Dispatch<SetStateAction<SortByOptions[number] | null>>;
 }
-
-const SORT_BY_OPTIONS = ["Last Contacted", "Name", "Email"];
 
 const LeftMenu = ({
   setShowModal,
   searchValue,
   setSearchvalue,
   tagsDispatcher,
+  sortByOptions,
+  selectedSortByOption,
+  setSortByOption,
 }: LeftMenuProps) => {
   const { data, isLoading } = trpc.friends.getTags.useQuery();
 
@@ -75,7 +79,13 @@ const LeftMenu = ({
       )}
       <hr className="py-2"></hr>
       <h1 className="pl-1 text-sm text-gray-600 ">Sort By</h1>
-      <MyDropdown />
+      <MyDropdown
+        options={[...sortByOptions]}
+        selectedOption={selectedSortByOption}
+        setSelectedOption={
+          setSortByOption as Dispatch<SetStateAction<string | null>>
+        }
+      />
     </div>
   );
 };

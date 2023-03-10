@@ -6,7 +6,7 @@ import type { RouterOutputs } from "../../../utils/trpc";
 import { trpc } from "../../../utils/trpc";
 import DeleteFriendModel from "./DeleteFriendModel";
 import FriendCard from "./FriendCard";
-import type { sortMethods } from "../../../pages/friends";
+import type { SortByOptions, sortMethods } from "../../../pages/friends";
 
 interface FriendAreaProps {
   sortMethod?: sortMethods;
@@ -14,6 +14,7 @@ interface FriendAreaProps {
   setOpenRightPanel: Dispatch<SetStateAction<boolean>>;
   searchValue: string;
   filterByTags: string[];
+  sortByOption: SortByOptions[number] | null;
 }
 
 // grabs the type of the limited friend result returned from
@@ -29,11 +30,17 @@ const fuseOptions: Fuse.IFuseOptions<FriendLimitedType> = {
   keys: ["name", "email"],
 };
 
+type sortFriendFn = (
+  frienda: FriendLimitedType,
+  friendb: FriendLimitedType
+) => number;
+
 const FriendArea = ({
   setSelectedFriend,
   setOpenRightPanel,
   searchValue,
   filterByTags,
+  sortByOption,
 }: FriendAreaProps) => {
   const [showDeleteFriendModal, setShowDeleteFriendModal] =
     useState<boolean>(false);
@@ -48,7 +55,7 @@ const FriendArea = ({
     return <p>Error</p>;
   }
 
-  const sortByLastContacted = (
+  const sortByLastContacted: sortFriendFn = (
     frienda: FriendLimitedType,
     friendb: FriendLimitedType
   ) => {
@@ -63,7 +70,43 @@ const FriendArea = ({
     return 0;
   };
 
-  let friendsSorted = data?.Friend.sort(sortByLastContacted);
+  const sortByEmail: sortFriendFn = (
+    frienda: FriendLimitedType,
+    friendb: FriendLimitedType
+  ) => {
+    if (!frienda.email) {
+      return 1;
+    }
+    if (!friendb.email) {
+      return -1;
+    }
+    return frienda.email.localeCompare(friendb.email);
+  };
+
+  const sortByName: sortFriendFn = (frienda, friendb) => {
+    if (!frienda.name) {
+      return 1;
+    }
+    if (!friendb.name) {
+      return -1;
+    }
+    return frienda.name.localeCompare(friendb.name);
+  };
+
+  const sortByType = (sortBy: SortByOptions[number] | null) => {
+    switch (sortBy) {
+      case "Email":
+        return sortByEmail;
+      case "Last Contacted":
+        return sortByLastContacted;
+      case "Name":
+        return sortByName;
+      default:
+        sortByLastContacted;
+    }
+  };
+
+  let friendsSorted = data?.Friend.sort(sortByType(sortByOption));
 
   if (filterByTags.length > 0) {
     friendsSorted = friendsSorted?.filter((friend) => {

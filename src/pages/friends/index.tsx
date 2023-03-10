@@ -11,6 +11,9 @@ export type sortMethods = "name" | "lastContacted" | undefined;
 
 export type ACTIONS = { type: "ADD" | "REMOVE" | "CLEAR"; payload: string };
 
+const SORT_BY_OPTIONS = ["Last Contacted", "Name", "Email"] as const;
+export type SortByOptions = typeof SORT_BY_OPTIONS;
+
 const tagsReducer = (prevTags: string[], action: ACTIONS) => {
   let array;
   switch (action.type) {
@@ -35,6 +38,9 @@ const FriendsPage: NextAuthPage = () => {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const [filterByTags, dispatcher] = useReducer(tagsReducer, []);
+  const [sortByOption, setSortByOption] = useState<
+    SortByOptions[number] | null
+  >(null);
 
   return (
     <>
@@ -45,6 +51,9 @@ const FriendsPage: NextAuthPage = () => {
             searchValue={searchValue}
             setSearchvalue={setSearchValue}
             tagsDispatcher={dispatcher}
+            sortByOptions={SORT_BY_OPTIONS}
+            selectedSortByOption={sortByOption}
+            setSortByOption={setSortByOption}
           />
         </div>
         <FriendArea
@@ -52,6 +61,7 @@ const FriendsPage: NextAuthPage = () => {
           setOpenRightPanel={setOpenRightPanel}
           searchValue={searchValue}
           filterByTags={filterByTags}
+          sortByOption={sortByOption}
         />
       </div>
       <RightSlideIn openRightPanel={showModal} setOpenRightPanel={setShowModal}>

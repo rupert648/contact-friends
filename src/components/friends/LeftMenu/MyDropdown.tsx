@@ -1,12 +1,19 @@
+import type { Dispatch, SetStateAction } from "react";
 import { useState } from "react";
 import { ChevronDown, ChevronRight } from "../../icons";
 
-const data = ["Istanbul, TR (AHL)", "Paris, FR (CDG)"];
+interface MyDropDownProps {
+  options: string[];
+  selectedOption: string | null;
+  setSelectedOption: Dispatch<SetStateAction<string | null>>;
+}
 
-const MyDropdown = () => {
+const MyDropdown = ({
+  options,
+  selectedOption,
+  setSelectedOption,
+}: MyDropDownProps) => {
   const [isOpen, setOpen] = useState(false);
-  const [items, setItem] = useState(data);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const toggleDropdown = () => setOpen(!isOpen);
 
@@ -16,8 +23,8 @@ const MyDropdown = () => {
         className="focus:shadow-outline mb-1 w-full cursor-pointer rounded border py-1 px-1 text-sm text-gray-700 shadow focus:outline-none"
         onClick={toggleDropdown}
       >
-        {selectedItem ? (
-          selectedItem
+        {selectedOption ? (
+          selectedOption
         ) : (
           <span className="text-gray-400">SortBy</span>
         )}
@@ -30,12 +37,12 @@ const MyDropdown = () => {
       </div>
       {isOpen && (
         <div className="absolute block w-full rounded-lg border-t-4 border-orange-500 bg-white ">
-          {items.map((item) => (
+          {options.map((item) => (
             <div
               className="rounded-lg p-1 hover:cursor-pointer hover:bg-orange-200"
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               onClick={(_) => {
-                setSelectedItem(item);
+                setSelectedOption(item);
                 setOpen(false);
               }}
               key={item}
